@@ -390,7 +390,7 @@ select option{background:var(--space2);color:var(--white);}
 </div>
 
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbwJaT1JdBKzkjxZ0nMkX4Z-fgOrotIwjXibSmfsDcIWEqD7B7oHsYcspb3D3Xu28ZtJ/exec';
+const API = 'https://script.google.com/macros/s/AKfycbyn9emz_bEu1NH-HiwBQMnQ3ukGsA0NXuo9aKUBMNU7wK8iI1LHUkBUXP423SeBY7k/exec';
 
 const TEAM = [
   "ANA CAROLINA Di Iorio Jeronymo","Breslei MAX","Bruno Leonardo SCHUSTER",
@@ -420,7 +420,7 @@ const SUB_COLORS={'00':'#5bb8ff','01':'#2db84b','02':'#ff6b6b','03':'#c87ee0','0
 const SUB_BG={'00':'rgba(26,143,227,0.1)','01':'rgba(45,184,75,0.1)','02':'rgba(227,64,64,0.1)','03':'rgba(180,100,200,0.1)','04':'rgba(245,197,24,0.1)','05':'rgba(83,74,183,0.1)','06':'rgba(0,201,167,0.1)','07':'rgba(90,112,144,0.1)','08':'rgba(255,140,0,0.1)','20':'rgba(26,143,227,0.1)','30':'rgba(45,184,75,0.1)','40':'rgba(83,74,183,0.1)','50':'rgba(0,201,167,0.1)','51':'rgba(245,197,24,0.1)','90':'rgba(90,112,144,0.1)','GC':'rgba(0,201,167,0.1)','CF':'rgba(26,143,227,0.1)','MH':'rgba(83,74,183,0.1)'};
 const SUB_BORDER={'00':'rgba(26,143,227,0.3)','01':'rgba(45,184,75,0.3)','02':'rgba(227,64,64,0.3)','03':'rgba(180,100,200,0.3)','04':'rgba(245,197,24,0.3)','05':'rgba(83,74,183,0.3)','06':'rgba(0,201,167,0.3)','07':'rgba(90,112,144,0.3)','08':'rgba(255,140,0,0.3)','20':'rgba(26,143,227,0.3)','30':'rgba(45,184,75,0.3)','40':'rgba(83,74,183,0.3)','50':'rgba(0,201,167,0.3)','51':'rgba(245,197,24,0.3)','90':'rgba(90,112,144,0.3)','GC':'rgba(0,201,167,0.3)','CF':'rgba(26,143,227,0.3)','MH':'rgba(83,74,183,0.3)'};
 
-let tasks=[],editingId=null,sortCol=null,sortDir=1,page=1;
+let tasks=[],historyMap={},editingId=null,sortCol=null,sortDir=1,page=1;
 const PER_PAGE=8;
 
 function setSyncStatus(state,msg){
@@ -435,15 +435,27 @@ async function loadData(){
   try{
     const r=await fetch(API+'?t='+Date.now());
     const data=await r.json();
-    tasks=data.map(row=>({
+    // Build full history grouped by id
+    const allRows = data.map(row=>({
       id:String(row.id),sub:row.subsistema||'',subCode:(row.subsistema||'').split(' ')[0],
       task:row.tarefa||'',resp:row.responsavel||'',start:row.inicio||'',end:row.fim||'',
       prio:row.prioridade||'Média',status:row.status||'A Fazer',
       estudando:row.estudando==='true'||row.estudando===true,
       revisando:row.revisando==='true'||row.revisando===true,
       relatorio:row.relatorio==='true'||row.relatorio===true,
-      obs:row.obs||''
-    }));
+      obs:row.obs||'',
+      atualizado_em:row.atualizado_em||''
+    })).filter(r=>r.status!=='deletado');
+
+    // Group history by id
+    historyMap = {};
+    allRows.forEach(r=>{
+      if(!historyMap[r.id]) historyMap[r.id]=[];
+      historyMap[r.id].push(r);
+    });
+
+    // Keep only most recent per id
+    tasks = Object.values(historyMap).map(versions=>versions[versions.length-1]);
     setSyncStatus('ok','◈ ONLINE — Sincronizado · '+new Date().toLocaleTimeString('pt-BR'));
     render();
   }catch(e){setSyncStatus('error','✕ ERRO — Falha na conexão com a planilha');}
@@ -531,6 +543,7 @@ function render(){
         </td>
         <td><div class="actions">
           <button class="act-btn" onclick="openObsModal('${t.id}')" title="Ver observações">📋</button>
+          <button class="act-btn" onclick="openHistoryModal('${t.id}')" title="Ver histórico" style="color:var(--yellow)">🕐</button>
           <button class="act-btn" onclick="editTask('${t.id}')" title="Editar">✏️</button>
           <button class="act-btn" onclick="deleteTask('${t.id}')" title="Excluir" style="color:var(--red)">🗑️</button>
         </div></td>
@@ -569,8 +582,9 @@ function fmt(d){
   return String(d);
 }
 
-function taskToPayload(t){
-  return{id:t.id,subsistema:t.sub,tarefa:t.task,responsavel:t.resp,inicio:t.start,fim:t.end,prioridade:t.prio,status:t.status,estudando:String(t.estudando),revisando:String(t.revisando),relatorio:String(t.relatorio),obs:t.obs||''};
+function taskToPayload(t, action){
+  const now = new Date().toLocaleString('pt-BR');
+  return{id:t.id,subsistema:t.sub,tarefa:t.task,responsavel:t.resp,inicio:t.start,fim:t.end,prioridade:t.prio,status:t.status,estudando:String(t.estudando),revisando:String(t.revisando),relatorio:String(t.relatorio),obs:t.obs||'',atualizado_em:now,action:action||'add'};
 }
 
 async function cycleStatus(id){
@@ -671,6 +685,59 @@ async function deleteTask(id){
 populateSelects();
 loadData();
 setInterval(()=>{setSyncStatus('loading','Atualizando...');loadData();},60000);
+
+function openHistoryModal(id){
+  const versions = historyMap[id] || [];
+  document.getElementById('historyModalTitle').textContent = '🕐 Histórico — ' + (versions[versions.length-1]?.task || '');
+  const body = document.getElementById('historyModalBody');
+  if(versions.length === 0){
+    body.innerHTML = '<div class="obs-none" style="padding:16px">Nenhum histórico encontrado.</div>';
+  } else {
+    const reversed = [...versions].reverse();
+    body.innerHTML = reversed.map((v, i) => {
+      const isLatest = i === 0;
+      const statusCls = v.status==='A Fazer'?'s-afazer':v.status==='Iniciado'?'s-iniciado':v.status==='Em Andamento'?'s-andamento':'s-finalizado';
+      return `<div style="padding:12px 18px;border-bottom:1px solid var(--border2);${isLatest?'background:rgba(245,197,24,0.04)':''}">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <span style="font-size:10px;color:var(--yellow);font-family:var(--mono);">${isLatest?'◈ VERSÃO ATUAL':'v'+(reversed.length - i)}</span>
+          <span style="font-size:10px;color:var(--white3);font-family:var(--mono);">${v.atualizado_em||'—'}</span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <span class="status-pill ${statusCls}">${v.status}</span>
+          <span class="prio-badge prio-${v.prio==='Alta'?'high':v.prio==='Média'?'med':'low'}">${v.prio}</span>
+          <span style="font-size:11px;color:var(--white2);font-family:var(--mono);">${v.resp?shortName(v.resp):''}</span>
+        </div>
+        <div style="margin-top:6px;display:flex;gap:12px;font-size:10px;color:var(--white3);font-family:var(--mono);">
+          <span>Início: ${fmt(v.start)}</span>
+          <span>Fim: ${fmt(v.end)}</span>
+        </div>
+        ${v.obs?`<div style="margin-top:6px;font-size:11px;color:var(--white3);font-family:var(--mono);border-left:2px solid var(--border);padding-left:8px;">${v.obs}</div>`:''}
+        <div style="margin-top:5px;display:flex;gap:6px;">
+          ${v.estudando?'<span class="work-badge w-estudando on">EST</span>':''}
+          ${v.revisando?'<span class="work-badge w-revisando on">REV</span>':''}
+          ${v.relatorio?'<span class="work-badge w-relatorio on">REL</span>':''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('historyModal').style.display='flex';
+}
+function closeHistoryModal(){document.getElementById('historyModal').style.display='none';}
+function closeHistoryModalBg(e){if(e.target===document.getElementById('historyModal'))closeHistoryModal();}
 </script>
+
+<!-- Modal Histórico -->
+<div class="obs-modal-overlay" id="historyModal" style="display:none;" onclick="closeHistoryModalBg(event)">
+  <div class="obs-modal" style="max-width:600px;">
+    <div class="obs-modal-head" style="border-top:3px solid var(--yellow);">
+      <span class="obs-modal-head-title" style="color:var(--yellow);" id="historyModalTitle">🕐 Histórico de Versões</span>
+      <button class="modal-close" onclick="closeHistoryModal()">×</button>
+    </div>
+    <div class="obs-modal-body" style="max-height:420px;overflow-y:auto;" id="historyModalBody"></div>
+    <div class="obs-modal-foot">
+      <span style="font-size:10px;color:var(--white3);font-family:var(--mono);">Cada edição gera uma nova versão na planilha</span>
+    </div>
+  </div>
+</div>
 </body>
 </html>
