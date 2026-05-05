@@ -369,7 +369,7 @@ select option{background:var(--space2);color:var(--white);}
 </div>
 
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbyjAXualWbdvsAHKaTpjTkMLUgiJ7FGuE8y0THeDkcmS3FdnYmCaNwv8yQAiBvGJgNB/exec';
+const API = 'https://script.google.com/macros/s/AKfycby4FyTdMB5d5iDd--DUoBIx_IV15PMh9FootgDXWTAZmjwed2wlsWTYrZmq1RUnypyy/exec';
 
 const TEAM = [
   "ANA CAROLINA Di Iorio Jeronymo","Breslei MAX","Bruno Leonardo SCHUSTER",
@@ -412,7 +412,7 @@ function hideLoading(){document.getElementById('loadingOverlay').style.display='
 async function loadData(){
   setSyncStatus('loading','Sincronizando com Google Sheets...');
   try{
-    const r=await fetch(API+'?t='+Date.now());
+    const r=await fetch(API+'?t='+Date.now(), {redirect:'follow'});
     const data=await r.json();
     // Build full history grouped by id
     const allRows = data.map(row=>({
@@ -444,8 +444,14 @@ async function loadData(){
 }
 
 async function apiCall(payload){
-  const r=await fetch(API,{method:'POST',body:JSON.stringify(payload)});
-  return await r.json();
+  // Use no-cors mode to avoid CORS issues with GitHub Pages
+  await fetch(API, {
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'text/plain'},
+    body:JSON.stringify(payload)
+  });
+  return {status:'ok'};
 }
 
 function populateSelects(){
