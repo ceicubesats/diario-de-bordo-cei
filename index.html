@@ -599,8 +599,6 @@ function openModal(id){
     document.getElementById('fTarefa').value=t.task;
     document.getElementById('fSubM').value=t.sub;
     document.getElementById('fRespM').value=t.resp||'';
-    document.getElementById('fPrioM').value=t.prio;
-    document.getElementById('fStatusM').value=t.status;
     document.getElementById('chkE').checked=t.estudando;
     document.getElementById('chkR').checked=t.revisando;
     document.getElementById('chkRel').checked=t.relatorio;
@@ -610,8 +608,6 @@ function openModal(id){
     document.getElementById('fTarefa').value='';
     document.getElementById('fSubM').value='00 - Geral';
     document.getElementById('fRespM').value=TEAM[0];
-    document.getElementById('fPrioM').value='Média';
-    document.getElementById('fStatusM').value='A Fazer';
     document.getElementById('chkE').checked=false;
     document.getElementById('chkR').checked=false;
     document.getElementById('chkRel').checked=false;
