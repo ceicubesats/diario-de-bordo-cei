@@ -69,7 +69,7 @@ body{font-family:var(--font);background:var(--space);color:var(--white);font-siz
 .search-icon{position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--white3);}
 
 /* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(5,1fr);background:var(--panel2);border-bottom:1px solid var(--border);}
+.stats-row{display:grid;grid-template-columns:1fr;background:var(--panel2);border-bottom:1px solid var(--border);}
 .stat-cell{padding:12px 16px;border-right:1px solid var(--border);text-align:center;position:relative;}
 .stat-cell:last-child{border-right:none;}
 .stat-num{font-size:24px;font-weight:700;font-family:var(--display);letter-spacing:.05em;}
@@ -423,7 +423,7 @@ async function loadData(){
       obs:row.obs||'',
       data_criacao:row.data_criacao||'',
       atualizado_em:row.atualizado_em||''
-    })).filter(r=>r.status!=='deletado');
+    }));
 
     // Group history by id
     historyMap = {};
@@ -477,14 +477,8 @@ function getFiltered(){
 
 function render(){
   const all=getFiltered(),total=all.length,start=(page-1)*PER_PAGE,visible=all.slice(start,start+PER_PAGE);
-  const aF=tasks.filter(t=>t.status==='A Fazer').length,ini=tasks.filter(t=>t.status==='Iniciado').length,
-        and=tasks.filter(t=>t.status==='Em Andamento').length,fin=tasks.filter(t=>t.status==='Finalizado').length;
   document.getElementById('statsRow').innerHTML=`
-    <div class="stat-cell"><div class="stat-num" style="color:#e8edf5">${tasks.length}</div><div class="stat-lbl">▸ Total</div></div>
-    <div class="stat-cell"><div class="stat-num" style="color:#5a7090">${aF}</div><div class="stat-lbl"><span class="stat-dot" style="background:#5a7090"></span>A Fazer</div></div>
-    <div class="stat-cell"><div class="stat-num" style="color:#5bb8ff">${ini}</div><div class="stat-lbl"><span class="stat-dot" style="background:#5bb8ff;box-shadow:0 0 4px #5bb8ff"></span>Iniciado</div></div>
-    <div class="stat-cell"><div class="stat-num" style="color:#f5c518">${and}</div><div class="stat-lbl"><span class="stat-dot" style="background:#f5c518;box-shadow:0 0 4px #f5c518"></span>Em Andamento</div></div>
-    <div class="stat-cell"><div class="stat-num" style="color:#2db84b">${fin}</div><div class="stat-lbl"><span class="stat-dot" style="background:#2db84b;box-shadow:0 0 4px #2db84b"></span>Finalizado</div></div>`;
+    <div class="stat-cell"><div class="stat-num" style="color:#e8edf5">${tasks.length}</div><div class="stat-lbl">▸ Total de Registros</div></div>`;
 
   const tbody=document.getElementById('tbody');
   if(visible.length===0){tbody.innerHTML='';document.getElementById('emptyState').style.display='block';}
@@ -493,7 +487,6 @@ function render(){
     tbody.innerHTML=visible.map(t=>{
       const code=t.subCode,[bg,fg]=avatarColor(t.resp||'?');
       const ini2=initials(t.resp||'?'),sn=shortName(t.resp||'?');
-      const barColor=prog===100?'#2db84b':prog>50?'#f5c518':'#5bb8ff';
       const hasObs=t.obs&&t.obs.trim().length>0;
       return `<tr>
         <td><span class="sub-badge" style="background:${SUB_BG[code]||'rgba(90,112,144,0.1)'};color:${SUB_COLORS[code]||'#a8b8cc'};border-color:${SUB_BORDER[code]||'rgba(90,112,144,0.3)'}"><span class="sub-dot" style="background:${SUB_COLORS[code]||'#a8b8cc'}"></span>${t.sub}</span></td>
@@ -502,19 +495,12 @@ function render(){
           ${hasObs?`<div class="obs-preview">${t.obs}</div>`:''}
         </td>
         <td><div class="resp-cell"><div class="resp-avatar" style="background:${bg};color:${fg}">${ini2}</div><span class="resp-name" title="${t.resp}">${sn}</span></div></td>
-        <td class="date-cell">${fmt(t.start)}</td>
-        <td class="date-cell">${fmt(t.end)}</td>
-
-
         <td><div class="work-badges">
           <span class="work-badge w-estudando ${t.estudando?'on':'off'}" onclick="toggleWork('${t.id}','estudando')">EST</span>
           <span class="work-badge w-revisando ${t.revisando?'on':'off'}" onclick="toggleWork('${t.id}','revisando')">REV</span>
           <span class="work-badge w-relatorio ${t.relatorio?'on':'off'}" onclick="toggleWork('${t.id}','relatorio')">REL</span>
+          <span class="work-badge w-testes ${t.testes?'on':'off'}" onclick="toggleWork('${t.id}','testes')">TES</span>
         </div></td>
-        <td style="min-width:72px">
-          <div style="font-size:10px;color:var(--white3);font-family:var(--mono)">${prog}%</div>
-          <div class="progress-bar-wrap"><div class="progress-bar" style="width:${prog}%;background:${barColor};box-shadow:0 0 4px ${barColor}"></div></div>
-        </td>
         <td><div class="actions">
           <button class="act-btn" onclick="openObsModal('${t.id}')" title="Ver observações">📋</button>
           <button class="act-btn" onclick="openHistoryModal('${t.id}')" title="Ver histórico" style="color:var(--yellow)">🕐</button>
@@ -579,9 +565,10 @@ function openObsModal(id){
   const t=tasks.find(x=>x.id===id);if(!t)return;
   document.getElementById('obsModalTitle').textContent=t.task;
   const hasObs=t.obs&&t.obs.trim().length>0;
-  document.getElementById('obsModalText').innerHTML=hasObs
+  const criacao = t.data_criacao ? `<div style="font-size:9px;color:var(--white3);font-family:var(--mono);margin-bottom:10px;">◈ Criado em: ${t.data_criacao}</div>` : '';
+  document.getElementById('obsModalText').innerHTML=criacao+(hasObs
     ?`<div class="obs-text">${t.obs.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`
-    :`<div class="obs-none">— Nenhuma observação registrada —</div>`;
+    :`<div class="obs-none">— Nenhuma observação registrada —</div>`);
   document.getElementById('obsModalEditBtn').onclick=()=>{closeObsModal();editTask(id);};
   document.getElementById('obsModal').style.display='flex';
 }
@@ -665,19 +652,15 @@ function openHistoryModal(id){
           <span style="font-size:10px;color:var(--white3);font-family:var(--mono);">${v.atualizado_em||'—'}</span>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-          <span class="status-pill ${statusCls}">${v.status}</span>
-          <span class="prio-badge prio-${v.prio==='Alta'?'high':v.prio==='Média'?'med':'low'}">${v.prio}</span>
           <span style="font-size:11px;color:var(--white2);font-family:var(--mono);">${v.resp?shortName(v.resp):''}</span>
-        </div>
-        <div style="margin-top:6px;display:flex;gap:12px;font-size:10px;color:var(--white3);font-family:var(--mono);">
-          <span>Início: ${fmt(v.start)}</span>
-          <span>Fim: ${fmt(v.end)}</span>
+          <span style="font-size:10px;color:var(--white3);font-family:var(--mono);">${v.sub||''}</span>
         </div>
         ${v.obs?`<div style="margin-top:6px;font-size:11px;color:var(--white3);font-family:var(--mono);border-left:2px solid var(--border);padding-left:8px;">${v.obs}</div>`:''}
         <div style="margin-top:5px;display:flex;gap:6px;">
           ${v.estudando?'<span class="work-badge w-estudando on">EST</span>':''}
           ${v.revisando?'<span class="work-badge w-revisando on">REV</span>':''}
           ${v.relatorio?'<span class="work-badge w-relatorio on">REL</span>':''}
+          ${v.testes?'<span class="work-badge w-testes on">TES</span>':''}
         </div>
       </div>`;
     }).join('');
