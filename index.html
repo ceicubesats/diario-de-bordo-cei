@@ -60,36 +60,36 @@ body{font-family:var(--font);background:var(--space);color:var(--white);font-siz
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
 
 /* FILTERS */
-.filters-bar{background:var(--panel);border-bottom:1px solid var(--border);padding:10px 28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.filters-bar{background:var(--panel);border-bottom:1px solid var(--border);padding:12px 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
 .filters-bar label{font-size:9px;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:.15em;font-family:var(--mono);}
-.filters-bar select,.filters-bar input[type=text]{font-size:11px;padding:5px 9px;border-radius:3px;border:1px solid var(--border);background:var(--space2);color:var(--white);height:30px;font-family:var(--mono);outline:none;transition:border .15s;}
+.filters-bar select,.filters-bar input[type=text]{font-size:11px;padding:6px 10px;border-radius:4px;border:1px solid var(--border);background:var(--space2);color:var(--white);height:32px;font-family:var(--mono);outline:none;transition:all .15s;}
 .filters-bar select:focus,.filters-bar input:focus{border-color:var(--green);box-shadow:0 0 8px rgba(45,184,75,0.2);}
 .search-wrap{position:relative;}
 .search-wrap input{padding-left:24px;min-width:150px;}
 .search-icon{position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--white3);}
 
 /* STATS */
-.stats-row{display:grid;grid-template-columns:1fr;background:var(--panel2);border-bottom:1px solid var(--border);}
-.stat-cell{padding:12px 16px;border-right:1px solid var(--border);text-align:center;position:relative;}
-.stat-cell:last-child{border-right:none;}
-.stat-num{font-size:24px;font-weight:700;font-family:var(--display);letter-spacing:.05em;}
-.stat-lbl{font-size:9px;color:var(--white3);margin-top:2px;text-transform:uppercase;letter-spacing:.12em;font-family:var(--mono);}
+.stats-row{background:var(--panel2);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;gap:24px;}
+.stat-cell{display:flex;align-items:center;gap:10px;padding:0;}
+.stat-cell:last-child{}
+.stat-num{font-size:28px;font-weight:700;font-family:var(--display);letter-spacing:.05em;color:var(--green);text-shadow:0 0 12px rgba(45,184,75,0.4);}
+.stat-lbl{font-size:9px;color:var(--white3);text-transform:uppercase;letter-spacing:.12em;font-family:var(--mono);line-height:1.4;}
 .stat-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px;}
 
 /* TABLE */
 .table-wrap{overflow-x:auto;background:var(--panel);}
-table{width:100%;border-collapse:collapse;min-width:1100px;}
+table{width:100%;border-collapse:collapse;min-width:700px;}
 thead tr{background:var(--space2);border-bottom:2px solid var(--border);}
-thead th{padding:9px 12px;text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--green);border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;font-family:var(--mono);}
+thead th{padding:10px 16px;text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--green);border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;font-family:var(--mono);}
 thead th:hover{color:var(--yellow);}
 .th-plain{cursor:default!important;}
 tbody tr{border-bottom:1px solid var(--border2);transition:background .1s;}
-tbody tr:hover{background:rgba(45,184,75,0.04);}
-td{padding:9px 12px;vertical-align:middle;}
-.sub-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:var(--badge-r);font-size:10px;font-weight:600;white-space:nowrap;font-family:var(--mono);letter-spacing:.05em;border:1px solid transparent;}
+tbody tr:hover{background:rgba(45,184,75,0.05);}
+td{padding:12px 16px;vertical-align:middle;}
+.sub-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:var(--badge-r);font-size:10px;font-weight:600;white-space:nowrap;font-family:var(--mono);letter-spacing:.05em;border:1px solid transparent;}
 .sub-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
-.task-name{font-size:12px;font-weight:600;color:var(--white);font-family:var(--display);letter-spacing:.03em;}
-.obs-preview{font-size:10px;color:var(--white3);margin-top:2px;max-width:190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--mono);}
+.task-name{font-size:13px;font-weight:600;color:var(--white);font-family:var(--display);letter-spacing:.03em;line-height:1.3;}
+.obs-preview{font-size:10px;color:var(--white3);margin-top:4px;max-width:420px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--mono);}
 .date-cell{font-size:11px;color:var(--white3);white-space:nowrap;font-family:var(--mono);}
 .prio-badge{display:inline-block;padding:2px 8px;border-radius:var(--badge-r);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-family:var(--mono);}
 .prio-high{background:rgba(227,64,64,0.15);color:#ff6b6b;border:1px solid rgba(227,64,64,0.4);}
@@ -110,18 +110,18 @@ td{padding:9px 12px;vertical-align:middle;}
 .w-relatorio{background:rgba(45,184,75,0.1);color:var(--green);border:1px solid rgba(45,184,75,0.3);}
 .w-testes{background:rgba(245,197,24,0.1);color:var(--yellow);border:1px solid rgba(245,197,24,0.3);}
 .w-testes{background:rgba(245,197,24,0.1);color:var(--yellow);border:1px solid rgba(245,197,24,0.3);}
-.resp-avatar{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;font-family:var(--mono);border:1px solid rgba(45,184,75,0.3);}
-.resp-cell{display:flex;align-items:center;gap:7px;}
-.resp-name{font-size:11px;color:var(--white2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px;font-family:var(--mono);}
-.actions{display:flex;gap:4px;}
-.act-btn{width:26px;height:26px;border-radius:3px;border:1px solid var(--border);background:transparent;color:var(--white3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .1s;}
-.act-btn:hover{background:var(--space3);color:var(--white);border-color:var(--green);}
+.resp-avatar{width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;font-family:var(--mono);border:1px solid rgba(45,184,75,0.35);box-shadow:0 0 8px rgba(45,184,75,0.15);}
+.resp-cell{display:flex;align-items:center;gap:10px;}
+.resp-name{font-size:11px;color:var(--white2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;font-family:var(--mono);}
+.actions{display:flex;gap:5px;}
+.act-btn{width:30px;height:30px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--white3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .15s;}
+.act-btn:hover{background:var(--space3);color:var(--white);border-color:var(--green);box-shadow:0 0 8px rgba(45,184,75,0.2);}
 .progress-bar-wrap{background:var(--border2);border-radius:2px;height:3px;margin-top:3px;}
 .progress-bar{height:3px;border-radius:2px;}
-.obs-badge{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--yellow);margin-left:5px;vertical-align:middle;box-shadow:0 0 4px var(--yellow);}
+.obs-badge{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--yellow);margin-left:6px;vertical-align:middle;box-shadow:0 0 6px var(--yellow);}
 
 /* PAGINATION */
-.pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-top:1px solid var(--border);background:var(--panel2);}
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;border-top:1px solid var(--border);background:var(--panel2);}
 .pg-info{font-size:10px;color:var(--white3);font-family:var(--mono);letter-spacing:.05em;}
 .pg-btns{display:flex;gap:4px;}
 .pg-btn{width:28px;height:28px;border-radius:3px;border:1px solid var(--border);background:var(--space2);font-size:11px;cursor:pointer;color:var(--white2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);}
@@ -227,7 +227,6 @@ select option{background:var(--space2);color:var(--white);}
       </optgroup>
       <optgroup label="── Gestão ──">
         <option value="GC">GC - Gestão do Conhecimento</option>
-        <option value="CF">CF - Gestão da Configuração</option>
         <option value="MH">MH - Matriz de Habilidades e Competências</option>
         <option value="GR">GR - Gestão de Riscos</option>
         <option value="GCR">GCR - Gestão de Cronograma</option>
@@ -257,7 +256,7 @@ select option{background:var(--space2);color:var(--white);}
 
 
 
-          <th class="th-plain">Atividade</th>
+
 
           <th class="th-plain"></th>
         </tr>
@@ -310,7 +309,6 @@ select option{background:var(--space2);color:var(--white);}
             </optgroup>
             <optgroup label="Gestão">
               <option value="GC - Gestão do Conhecimento">GC - Gestão do Conhecimento</option>
-              <option value="CF - Gestão da Configuração">CF - Gestão da Configuração</option>
               <option value="MH - Matriz de Habilidades e Competências">MH - Matriz de Habilidades e Competências</option>
               <option value="GR - Gestão de Riscos">GR - Gestão de Riscos</option>
               <option value="GCR - Gestão de Cronograma">GCR - Gestão de Cronograma</option>
@@ -323,15 +321,7 @@ select option{background:var(--space2);color:var(--white);}
           <label class="form-label">▸ Responsável</label>
           <select class="form-select" id="fRespM"></select>
         </div>
-        <div class="form-group full">
-          <label class="form-label">▸ Atividade</label>
-          <div class="checkboxes">
-            <label class="chk-item"><input type="checkbox" id="chkE"/> Estudando</label>
-            <label class="chk-item"><input type="checkbox" id="chkR"/> Revisando</label>
-            <label class="chk-item"><input type="checkbox" id="chkRel"/> Relatório</label>
-            <label class="chk-item"><input type="checkbox" id="chkT"/> Testes</label>
-          </div>
-        </div>
+
         <div class="form-group full">
           <label class="form-label">▸ Observações</label>
           <textarea class="form-textarea" id="fObs" rows="4" placeholder="Registre lições aprendidas, dificuldades encontradas, decisões tomadas, links úteis..."></textarea>
@@ -366,7 +356,7 @@ select option{background:var(--space2);color:var(--white);}
 </div>
 
 <script>
-const API = 'https://script.google.com/macros/s/AKfycby4FyTdMB5d5iDd--DUoBIx_IV15PMh9FootgDXWTAZmjwed2wlsWTYrZmq1RUnypyy/exec';
+const API = 'https://script.google.com/macros/s/AKfycbyKW4X0Ns3wuLaVOLo_m08iij5XuAqzJ2TY2mokosWNgxQWi4kx9WFad78PVQBofhc/exec';
 
 const TEAM = [
   "ANA CAROLINA Di Iorio Jeronymo","Breslei MAX","Bruno Leonardo SCHUSTER",
@@ -416,10 +406,7 @@ async function loadData(){
       id:String(row.id),sub:row.subsistema||'',subCode:(row.subsistema||'').split(' ')[0],
       task:row.tarefa||'',resp:row.responsavel||'',
 
-      estudando:row.estudando==='true'||row.estudando===true,
-      revisando:row.revisando==='true'||row.revisando===true,
-      relatorio:row.relatorio==='true'||row.relatorio===true,
-      testes:row.testes==='true'||row.testes===true,
+
       obs:row.obs||'',
       data_criacao:row.data_criacao||'',
       atualizado_em:row.atualizado_em||''
@@ -477,8 +464,26 @@ function getFiltered(){
 
 function render(){
   const all=getFiltered(),total=all.length,start=(page-1)*PER_PAGE,visible=all.slice(start,start+PER_PAGE);
+  const bySubCount = {};
+  tasks.forEach(t=>{ bySubCount[t.subCode]=(bySubCount[t.subCode]||0)+1; });
+  const topSub = Object.entries(bySubCount).sort((a,b)=>b[1]-a[1])[0];
+  const topSubLabel = topSub ? topSub[0] : '—';
+  const withObs = tasks.filter(t=>t.obs&&t.obs.trim().length>0).length;
   document.getElementById('statsRow').innerHTML=`
-    <div class="stat-cell"><div class="stat-num" style="color:#e8edf5">${tasks.length}</div><div class="stat-lbl">▸ Total de Registros</div></div>`;
+    <div class="stat-cell">
+      <div class="stat-num">${tasks.length}</div>
+      <div class="stat-lbl">Total de<br>Registros</div>
+    </div>
+    <div style="width:1px;height:36px;background:var(--border);flex-shrink:0;"></div>
+    <div class="stat-cell">
+      <div class="stat-num" style="color:var(--yellow)">${withObs}</div>
+      <div class="stat-lbl">Com<br>Observações</div>
+    </div>
+    <div style="width:1px;height:36px;background:var(--border);flex-shrink:0;"></div>
+    <div class="stat-cell">
+      <div class="stat-num" style="color:var(--teal,#00c9a7);font-size:18px;letter-spacing:.05em">${topSubLabel}</div>
+      <div class="stat-lbl">Subsistema<br>mais ativo</div>
+    </div>`;
 
   const tbody=document.getElementById('tbody');
   if(visible.length===0){tbody.innerHTML='';document.getElementById('emptyState').style.display='block';}
@@ -495,12 +500,7 @@ function render(){
           ${hasObs?`<div class="obs-preview">${t.obs}</div>`:''}
         </td>
         <td><div class="resp-cell"><div class="resp-avatar" style="background:${bg};color:${fg}">${ini2}</div><span class="resp-name" title="${t.resp}">${sn}</span></div></td>
-        <td><div class="work-badges">
-          <span class="work-badge w-estudando ${t.estudando?'on':'off'}" onclick="toggleWork('${t.id}','estudando')">EST</span>
-          <span class="work-badge w-revisando ${t.revisando?'on':'off'}" onclick="toggleWork('${t.id}','revisando')">REV</span>
-          <span class="work-badge w-relatorio ${t.relatorio?'on':'off'}" onclick="toggleWork('${t.id}','relatorio')">REL</span>
-          <span class="work-badge w-testes ${t.testes?'on':'off'}" onclick="toggleWork('${t.id}','testes')">TES</span>
-        </div></td>
+
         <td><div class="actions">
           <button class="act-btn" onclick="openObsModal('${t.id}')" title="Ver observações">📋</button>
           <button class="act-btn" onclick="openHistoryModal('${t.id}')" title="Ver histórico" style="color:var(--yellow)">🕐</button>
@@ -545,18 +545,12 @@ function fmt(d){
 function taskToPayload(t, action){
   const now = new Date().toLocaleString('pt-BR');
   const isNew = !action || action==='add';
-  return{id:t.id,subsistema:t.sub,tarefa:t.task,responsavel:t.resp,estudando:String(t.estudando),revisando:String(t.revisando),relatorio:String(t.relatorio),testes:String(t.testes||false),obs:t.obs||'',data_criacao:isNew?now:(t.data_criacao||now),atualizado_em:now,action:action||'add'};
+  return{id:t.id,subsistema:t.sub,tarefa:t.task,responsavel:t.resp,obs:t.obs||'',data_criacao:isNew?now:(t.data_criacao||now),atualizado_em:now,action:action||'add'};
 }
 
 
 
-async function toggleWork(id,field){
-  const t=tasks.find(x=>x.id===id);if(!t)return;
-  t[field]=!t[field];render();
-  setSyncStatus('loading','Salvando...');
-  try{await apiCall({action:'update',...taskToPayload(t)});setSyncStatus('ok','◈ ONLINE — Salvo · '+new Date().toLocaleTimeString('pt-BR'));}
-  catch(e){setSyncStatus('error','✕ Erro ao salvar');}
-}
+
 
 function sortBy(col){if(sortCol===col)sortDir=-sortDir;else{sortCol=col;sortDir=1;}render();}
 function goPage(p){page=p;render();}
@@ -583,19 +577,13 @@ function openModal(id){
     document.getElementById('fTarefa').value=t.task;
     document.getElementById('fSubM').value=t.sub;
     document.getElementById('fRespM').value=t.resp||'';
-    document.getElementById('chkE').checked=t.estudando;
-    document.getElementById('chkR').checked=t.revisando;
-    document.getElementById('chkRel').checked=t.relatorio;
-    document.getElementById('chkT').checked=t.testes||false;
+
     document.getElementById('fObs').value=t.obs||'';
   }else{
     document.getElementById('fTarefa').value='';
     document.getElementById('fSubM').value='00 - Geral';
     document.getElementById('fRespM').value=TEAM[0];
-    document.getElementById('chkE').checked=false;
-    document.getElementById('chkR').checked=false;
-    document.getElementById('chkRel').checked=false;
-    document.getElementById('chkT').checked=false;
+
     document.getElementById('fObs').value='';
   }
   document.getElementById('modal').style.display='flex';
@@ -608,7 +596,7 @@ async function saveTask(){
   if(!tarefa){alert('Nome da tarefa é obrigatório.');return;}
   const sub=document.getElementById('fSubM').value,code=sub.split(' ')[0];
   const id=editingId||String(Date.now());
-  const obj={id,sub,subCode:code,task:tarefa,resp:document.getElementById('fRespM').value,estudando:document.getElementById('chkE').checked,revisando:document.getElementById('chkR').checked,relatorio:document.getElementById('chkRel').checked,testes:document.getElementById('chkT').checked,obs:document.getElementById('fObs').value.trim(),data_criacao:editingId?(tasks.find(x=>x.id===editingId)||{}).data_criacao||'':''};
+  const obj={id,sub,subCode:code,task:tarefa,resp:document.getElementById('fRespM').value,obs:document.getElementById('fObs').value.trim(),data_criacao:editingId?(tasks.find(x=>x.id===editingId)||{}).data_criacao||'':''};
   closeModal();
   showLoading(editingId?'Atualizando registro...':'Salvando novo registro...');
   try{
@@ -656,12 +644,7 @@ function openHistoryModal(id){
           <span style="font-size:10px;color:var(--white3);font-family:var(--mono);">${v.sub||''}</span>
         </div>
         ${v.obs?`<div style="margin-top:6px;font-size:11px;color:var(--white3);font-family:var(--mono);border-left:2px solid var(--border);padding-left:8px;">${v.obs}</div>`:''}
-        <div style="margin-top:5px;display:flex;gap:6px;">
-          ${v.estudando?'<span class="work-badge w-estudando on">EST</span>':''}
-          ${v.revisando?'<span class="work-badge w-revisando on">REV</span>':''}
-          ${v.relatorio?'<span class="work-badge w-relatorio on">REL</span>':''}
-          ${v.testes?'<span class="work-badge w-testes on">TES</span>':''}
-        </div>
+
       </div>`;
     }).join('');
   }
