@@ -66,7 +66,7 @@ body{font-family:var(--font);background:var(--space);color:var(--white);font-siz
 .filters-bar select:focus,.filters-bar input:focus{border-color:var(--green);box-shadow:0 0 8px rgba(45,184,75,0.2);}
 .search-wrap{position:relative;}
 .search-wrap input{padding-left:24px;min-width:150px;}
-.search-icon{position:absolute;left:4px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--white3);}
+.search-icon{position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--white3);}
 
 /* STATS */
 .stats-row{background:var(--panel2);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;gap:24px;}
@@ -399,7 +399,7 @@ function hideLoading(){document.getElementById('loadingOverlay').style.display='
 async function loadData(){
   setSyncStatus('loading','Sincronizando com Google Sheets...');
   try{
-    const r=await fetch(API+'?t='+Date.now(), {redirect:'follow'});
+    const r=await fetch(API+'?t='+Date.now());
     const data=await r.json();
     // Build full history grouped by id
     const allRows = data.map(row=>({
@@ -428,10 +428,8 @@ async function loadData(){
 }
 
 async function apiCall(payload){
-  // Use no-cors mode to avoid CORS issues with GitHub Pages
   await fetch(API, {
     method:'POST',
-    mode:'no-cors',
     headers:{'Content-Type':'text/plain'},
     body:JSON.stringify(payload)
   });
