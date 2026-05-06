@@ -624,13 +624,10 @@ async function deleteTask(id){
 }
 
 function gerarCaseStudies(){
-  if(!confirm('Gerar um Case Study para cada registro?\nOs documentos serão salvos na pasta "Diários de Bordo CEI" no Google Drive.\n\nClique OK e aguarde — uma nova aba vai abrir com os documentos gerados.')) return;
-  setSyncStatus('loading','Gerando Case Studies no Google Drive...');
-  // Open in new tab — Apps Script will generate the docs and show a summary
-  window.open(API + '?action=generate_report&t=' + Date.now(), '_blank');
-  setTimeout(()=>{
-    setSyncStatus('ok','◈ Case Studies gerados! Verifique a pasta "Diários de Bordo CEI" no Drive.');
-  }, 3000);
+  if(!confirm('Gerar um Case Study para cada registro?\nOs documentos serão salvos na pasta "Diários de Bordo CEI" no Google Drive.\n\nUma nova aba vai abrir — aguarde o processamento.')) return;
+  const url = 'https://script.google.com/macros/s/AKfycbzaew1Ark8o5fVNZUOrFfVWYoSpHnJJ1Tyl3vKaR7ANiFYjskQpHUTgvuWcOgasg8H9/exec?action=generate_report';
+  window.open(url, '_blank');
+  setSyncStatus('ok','◈ Gerando Case Studies... Verifique a nova aba aberta.');
 }
 
 populateSelects();
