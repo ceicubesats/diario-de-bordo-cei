@@ -362,7 +362,7 @@ select option{background:var(--space2);color:var(--white);}
 </div>
 
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbzaew1Ark8o5fVNZUOrFfVWYoSpHnJJ1Tyl3vKaR7ANiFYjskQpHUTgvuWcOgasg8H9/exec';
+const API = 'https://script.google.com/macros/s/AKfycbzKdLTe5idMysI1_i1QuDn_RA3jylsneCiC8EbDalRC_H9ZcDDcHa0rOknkgc6weFhk/exec';
 
 const TEAM = [
   "ANA CAROLINA Di Iorio Jeronymo","Breslei MAX","Bruno Leonardo SCHUSTER",
@@ -625,7 +625,7 @@ async function deleteTask(id){
 
 function gerarCaseStudies(){
   if(!confirm('Gerar um Case Study para cada registro?\nOs documentos serão salvos na pasta "Diários de Bordo CEI" no Google Drive.\n\nUma nova aba vai abrir — aguarde o processamento.')) return;
-  const url = 'https://script.google.com/macros/s/AKfycbzaew1Ark8o5fVNZUOrFfVWYoSpHnJJ1Tyl3vKaR7ANiFYjskQpHUTgvuWcOgasg8H9/exec?action=generate_report';
+  const url = 'https://script.google.com/macros/s/AKfycbzKdLTe5idMysI1_i1QuDn_RA3jylsneCiC8EbDalRC_H9ZcDDcHa0rOknkgc6weFhk/exec?action=generate_report';
   window.open(url, '_blank');
   setSyncStatus('ok','◈ Gerando Case Studies... Verifique a nova aba aberta.');
 }
