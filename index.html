@@ -142,7 +142,7 @@ td{padding:12px 16px;vertical-align:middle;}
 .form-label{font-size:9px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.15em;font-family:var(--mono);margin-bottom:0;}
 .form-input,.form-select,.form-textarea{padding:6px 10px;border-radius:3px;border:1px solid var(--border);background:var(--space2);color:var(--white);font-size:12px;font-family:var(--mono);outline:none;transition:border .15s;}
 .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--green);box-shadow:0 0 8px rgba(45,184,75,0.15);}
-.form-textarea{resize:none;min-height:48px;max-height:80px;line-height:1.5;}
+.form-textarea{resize:none;height:56px;max-height:56px;line-height:1.5;overflow-y:auto;}
 .checkboxes{display:flex;gap:14px;flex-wrap:wrap;margin-top:3px;}
 .chk-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--white2);cursor:pointer;font-family:var(--mono);}
 .modal-foot{padding:10px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0;background:var(--space2);}
@@ -325,7 +325,7 @@ select option{background:var(--space2);color:var(--white);}
 
         <div class="form-group full">
           <label class="form-label">▸ Observações</label>
-          <textarea class="form-textarea" id="fObs" rows="4" placeholder="Registre lições aprendidas, dificuldades encontradas, decisões tomadas, links úteis..."></textarea>
+          <textarea class="form-textarea" id="fObs" rows="2" placeholder="Registre lições aprendidas, dificuldades encontradas, decisões tomadas, links úteis..."></textarea>
         </div>
       </div>
     </div>
