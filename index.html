@@ -362,7 +362,7 @@ select option{background:var(--space2);color:var(--white);}
 </div>
 
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbxLPSBvsL-SDK7REX87JYgxFPxRA-3Zo9SiEoQgKxwBgd-7hCNqGjmbcNrRDpaduyDC/exec';
+const API = 'https://script.google.com/macros/s/AKfycbzaew1Ark8o5fVNZUOrFfVWYoSpHnJJ1Tyl3vKaR7ANiFYjskQpHUTgvuWcOgasg8H9/exec';
 
 const TEAM = [
   "ANA CAROLINA Di Iorio Jeronymo","Breslei MAX","Bruno Leonardo SCHUSTER",
@@ -623,32 +623,14 @@ async function deleteTask(id){
   catch(e){setSyncStatus('error','✕ Erro ao excluir');}
 }
 
-async function gerarCaseStudies(){
-  if(!confirm('Gerar um Case Study para cada registro? Os documentos serão salvos na pasta "Diários de Bordo CEI" no Google Drive.')) return;
-  showLoading('Gerando Case Studies...');
-  setSyncStatus('loading','Gerando documentos...');
-  try{
-    const r = await fetch(API, {
-      method:'POST',
-      headers:{'Content-Type':'text/plain'},
-      body:JSON.stringify({action:'generate_report'})
-    });
-    const data = await r.json();
-    hideLoading();
-    if(data.urls && data.urls.length > 0){
-      setSyncStatus('ok','◈ '+data.urls.length+' Case Studies gerados com sucesso!');
-      // Open first document
-      window.open(data.urls[0].url, '_blank');
-      alert('✅ '+data.urls.length+' Case Studies gerados com sucesso!\nOs documentos estão na pasta "Diários de Bordo CEI" no seu Google Drive.');
-    } else {
-      setSyncStatus('ok','◈ Case Studies gerados!');
-      alert('✅ Case Studies gerados! Verifique a pasta "Diários de Bordo CEI" no Google Drive.');
-    }
-  }catch(e){
-    hideLoading();
-    setSyncStatus('error','✕ Erro ao gerar Case Studies');
-    alert('Erro ao gerar os documentos. Tente novamente.');
-  }
+function gerarCaseStudies(){
+  if(!confirm('Gerar um Case Study para cada registro?\nOs documentos serão salvos na pasta "Diários de Bordo CEI" no Google Drive.\n\nClique OK e aguarde — uma nova aba vai abrir com os documentos gerados.')) return;
+  setSyncStatus('loading','Gerando Case Studies no Google Drive...');
+  // Open in new tab — Apps Script will generate the docs and show a summary
+  window.open(API + '?action=generate_report&t=' + Date.now(), '_blank');
+  setTimeout(()=>{
+    setSyncStatus('ok','◈ Case Studies gerados! Verifique a pasta "Diários de Bordo CEI" no Drive.');
+  }, 3000);
 }
 
 populateSelects();
