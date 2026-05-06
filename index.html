@@ -46,8 +46,6 @@ body{font-family:var(--font);background:var(--space);color:var(--white);font-siz
 .mission-badge{font-family:var(--mono);font-size:10px;color:var(--yellow);letter-spacing:.15em;border:1px solid var(--yellow-dim);padding:4px 10px;border-radius:2px;background:rgba(245,197,24,0.05);}
 .btn-add{background:linear-gradient(135deg,var(--green2),var(--green));color:#fff;border:none;border-radius:3px;padding:8px 18px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--display);letter-spacing:.1em;text-transform:uppercase;transition:all .2s;box-shadow:0 0 12px rgba(45,184,75,0.3);}
 .btn-add:hover{background:linear-gradient(135deg,var(--green),#3dd860);box-shadow:0 0 20px rgba(45,184,75,0.5);}
-.btn-report{background:transparent;color:var(--yellow);border:1px solid var(--yellow-dim);border-radius:3px;padding:8px 18px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--display);letter-spacing:.1em;text-transform:uppercase;transition:all .2s;}
-.btn-report:hover{background:rgba(245,197,24,0.1);box-shadow:0 0 12px rgba(245,197,24,0.2);}
 
 /* SCAN LINE EFFECT */
 .topbar::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(45,184,75,0.01) 2px,rgba(45,184,75,0.01) 4px);pointer-events:none;}
@@ -196,8 +194,7 @@ select option{background:var(--space2);color:var(--white);}
     </div>
     <div class="topbar-right">
       <div class="mission-badge">▶ MISSION LOG ACTIVE</div>
-      <button class="btn-report" onclick="gerarCaseStudies()">📄 Gerar Case Studies</button>
-      <button class="btn-add" onclick="openModal()">+ Novo Registro</button>
+<button class="btn-add" onclick="openModal()">+ Novo Registro</button>
     </div>
   </div>
 
@@ -621,13 +618,6 @@ async function deleteTask(id){
   setSyncStatus('loading','Excluindo...');
   try{await apiCall({action:'delete',id});setSyncStatus('ok','◈ ONLINE — Salvo · '+new Date().toLocaleTimeString('pt-BR'));}
   catch(e){setSyncStatus('error','✕ Erro ao excluir');}
-}
-
-function gerarCaseStudies(){
-  if(!confirm('Gerar um Case Study para cada registro?\nOs documentos serão salvos na pasta "Diários de Bordo CEI" no Google Drive.\n\nUma nova aba vai abrir — aguarde o processamento.')) return;
-  const url = 'https://script.google.com/macros/s/AKfycbzKdLTe5idMysI1_i1QuDn_RA3jylsneCiC8EbDalRC_H9ZcDDcHa0rOknkgc6weFhk/exec?action=generate_report';
-  window.open(url, '_blank');
-  setSyncStatus('ok','◈ Gerando Case Studies... Verifique a nova aba aberta.');
 }
 
 populateSelects();
